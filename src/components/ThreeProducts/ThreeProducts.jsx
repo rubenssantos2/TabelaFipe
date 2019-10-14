@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 
+import Header from '../Header/Header';
+import Menu from '../Menu/Menu';
+
 class ThreeProducts extends Component {
     render() {
       return (
         <React.Fragment>
+
+            <Header />
+            <Menu />
 
             <div className="three-products">
                 <h2>

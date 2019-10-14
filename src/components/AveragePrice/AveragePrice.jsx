@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import AveragePriceResult from './AveragePriceResult/AveragePriceResult';
 
+import Header from '../Header/Header';
+
+import Menu from '../Menu/Menu';
+
 class AveragePrice extends Component {
     render() {
       return (
         <React.Fragment>
+
+        <Header />
+        <Menu />
 
             <div className="average-price">
 

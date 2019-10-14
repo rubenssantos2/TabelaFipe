@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import Header from '../Header/Header';
+import Menu from '../Menu/Menu';
+
 class DataSearched extends Component {
 
     render() {
 
       return (
         <React.Fragment>
+            <Header />
+            <Menu />
             <div className="data-searched">
                 <h2>
                     Aqui estão as consultas de veículos que você fez até agora:

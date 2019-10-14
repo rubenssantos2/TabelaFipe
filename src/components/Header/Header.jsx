@@ -5,8 +5,9 @@ class Header extends Component {
       return (
         <React.Fragment>
 
-            <header className="App-header">
-    
+            <header>
+              <img src="https://www.fipe.org.br/Content/img/logo_fipe.png" alt="Fipe" />
+              <h1>Consulta da Tabela Fipe</h1>
             </header>
             
         </React.Fragment>

@@ -9,7 +9,7 @@ const api = {
     endUrl: '.json'
 }
 
-class DataList extends Component {
+class ExampleOfRequest extends Component {
     constructor(){
         super();
         this.state = {
@@ -26,13 +26,20 @@ class DataList extends Component {
             })
     }
     render() {
+        const { fipeData } =  this.state;
       return (
         <React.Fragment>
+            {fipeData.map((data) => {
 
-
+                return (
+                    <p>
+                        { data.name }
+                    </p>
+                )
+            })}
         </React.Fragment>
       );
     }
   }
   
-  export default DataList;
+  export default ExampleOfRequest;

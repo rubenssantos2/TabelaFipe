@@ -32,48 +32,57 @@ class AveragePrice extends Component {
             .get(`${api.baseUrl}carros/marcas${api.endUrl}`)
             .then(resp => {
                 this.setState({allBrands: resp.data});
-
             })
     }
 
     handleModelChange = ( event ) => {
-        this.setState({readyToSearch: false});
+        this.setState({readyToSearch: false, actualModelId: [], actualBrandId: event.target.value});
         this.updateModels(event.target.value);
         } 
 
-    updateModels(brandModelId){
+    updateModels(brandId){
         axios
-            .get(`${api.baseUrl}carros/veiculos/${brandModelId}${api.endUrl}`)
+            .get(`${api.baseUrl}carros/veiculos/${brandId}${api.endUrl}`)
             .then(resp => {
-                this.setState({models: resp.data, actualModelId: brandModelId});
+                this.setState({models: resp.data});
             })
         }
 
     handleYearChange = ( event ) => {
-        this.setState({readyToSearch: false});
+        this.setState({readyToSearch: false, actualYearId: [], actualModelId: event.target.value});
         this.updateYears(event.target.value);
         } 
 
-    updateYears(yearId){
+    updateYears(modelId){
         let brandId = this.state.actualBrandId;
-        let ModelId = this.state.actualModelId;
 
         axios
-            .get(`${api.baseUrl}carros/veiculo${brandId}/${ModelId}/${yearId}${api.endUrl}`)
+            .get(`${api.baseUrl}carros/veiculo/${brandId}/${modelId}${api.endUrl}`)
             .then(resp => {
-                this.setState({years: resp.data, actualYearId: yearId});
+                this.setState({years: resp.data});
             })
         }
 
+    handleUpdateYear = ( event ) => {
+        this.setState({actualYearId: event.target.value});
+    }
+
     handleSubmit = ( event ) => {
         event.preventDefault();
+        let actualBrandId = this.state.actualBrandId;
+        let actualModelId = this.state.actualModelId;
+        let actualYearId = this.state.actualYearId;
+        let actualVehicle = this.state.actualVehicle;
+
+        if(actualBrandId != '' && actualModelId != '' && actualYearId != ''){
+            this.setState({readyToSearch: true});
+        }
         let readyToSearch = this.state.readyToSearch;
-        let brandId = this.state.actualBrandId;
-        let modelId = this.state.actualModelId;
-        let yearId = this.state.actualYearId;
         
-        if(readyToSearch){
-            this.searchVehicle(brandId, modelId, yearId);
+        
+        switch(true){
+            case readyToSearch:
+            this.searchVehicle(actualBrandId, actualModelId, actualYearId);
         }
     }
 
@@ -96,13 +105,17 @@ class AveragePrice extends Component {
                         key: resp.data.key
                     }
                 });
-
-                console.log(this.state.actualVehicle);
+                
             })
     }
 
     render() {
-        const allBrands = this.state.allBrands;
+        let allBrands = this.state.allBrands;
+        let brandsList = allBrands.length > 0 && allBrands.map((brand, i) => {
+            return (
+                <option key={brand.id} value={brand.id}>{brand.name}</option>
+            )
+        })
 
         let models = this.state.models;
         let modelsList = models.length > 0 && models.map((model, i) => {
@@ -129,17 +142,15 @@ class AveragePrice extends Component {
                 <h2>Selecione as informações abaixo para realizar a pesquisa de valor médio de veículo:</h2>
 
                 <form className=".average-price" onSubmit={this.handleSubmit}>
-                    <select placeholder="Selecione a marca do veículo" className="vehicle-brand" onChange={this.handleModelChange} value={this.state.actualBrandId}>
+                    <select placeholder="Selecione a marca do veículo" className="vehicle-brand" onChange={this.handleModelChange}>
                         <option disabled selected className="select-title">Selecione a marca do veículo</option>
-                        {allBrands.map((brand) => {
-                            return (<option key={brand.id} value={brand.id}>{brand.name}</option>)
-                        })}                        
+                        {brandsList}                        
                     </select>
-                    <select placeholder="Selecione o modelo do veículo" className="vehicle-model" onChange={this.handleYearChange} value={this.state.actualModelId}>
-                        <option disabled selected className="select-title">Selecione o modelo do veículo</option>
+                    <select placeholder="Selecione o modelo do veículo" className="vehicle-model" onChange={this.handleYearChange}>
+                        <option disabled className="select-title">Selecione o modelo do veículo</option>
                         {modelsList}
                     </select>
-                    <select placeholder="Selecione o ano do veículo" className="vehicle-year">
+                    <select placeholder="Selecione o ano do veículo" className="vehicle-year" onChange={this.handleUpdateYear}>
                         <option disabled selected className="select-title">Selecione o ano do veículo</option>
                         {yearsList}
                     </select>
@@ -148,7 +159,18 @@ class AveragePrice extends Component {
                 </form>
                 
                 
-                {this.state.readyToSearch && <AveragePriceResult id={this.state.actualVehicle.id} year={this.state.actualVehicle.year} brand={this.state.actualVehicle.brand} name={this.state.actualVehicle.name} vehicle={this.state.actualVehicle.vehicle} price={this.state.actualVehicle.price} fuel={this.state.actualVehicle.fuel} ref={this.state.actualVehicle.ref} fipe_cod={this.state.actualVehicle.fipe_cod} key={this.state.actualVehicle.key} />}
+                {this.state.readyToSearch && 
+                    <AveragePriceResult 
+                        id={this.state.actualVehicle.id} 
+                        year={this.state.actualVehicle.year} 
+                        brand={this.state.actualVehicle.brand} 
+                        name={this.state.actualVehicle.name} 
+                        vehicle={this.state.actualVehicle.vehicle} 
+                        price={this.state.actualVehicle.price} 
+                        fuel={this.state.actualVehicle.fuel} 
+                        ref={this.state.actualVehicle.ref} 
+                        fipe_cod={this.state.actualVehicle.fipe_cod} 
+                        key={this.state.actualVehicle.key} />}
                 
             </div>
 

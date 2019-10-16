@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class AveragePriceResult extends Component {
-    render() {
+const AveragePriceResult = (props) => {
+
+    //if(props.readyToRender == true)
+
       return (
         <React.Fragment>
 
@@ -9,30 +11,29 @@ class AveragePriceResult extends Component {
                 <table>
                     <tr>
                         <td>Código Fipe:</td>
-                        <td></td>
+                        <td>{props.fipe_cod}</td>
                     </tr>
                     <tr>
                         <td>Marca:</td>
-                        <td></td>
+                        <td>{props.brand}</td>
                     </tr>
                     <tr>
                         <td>Modelo:</td>
-                        <td></td>
+                        <td>{props.vehicle}</td>
                     </tr>
                     <tr>
                         <td>Ano Modelo:</td>
-                        <td></td>
+                        <td>{props.year}</td>
                     </tr>
                     <tr>
                         <td className="price">Preço Médio:</td>
-                        <td></td>
+                        <td>{props.price}</td>
                     </tr>
                 </table>
             </div>
 
         </React.Fragment>
       );
-    }
   }
   
   export default AveragePriceResult;

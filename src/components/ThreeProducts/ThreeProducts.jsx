@@ -9,15 +9,19 @@ class ThreeProducts extends Component {
         <React.Fragment>
 
             <Header />
-            <Menu />
 
-            <div className="three-products">
+            <div className="three-products data-show">
+
                 <h2>
-                    Aqui estão os 3 veículos mais procurados até agora:
+                    Os mais procurados
                 </h2>
 
+                <h3>
+                    Aqui estão os 3 veículos mais procurados até agora:
+                </h3>
+
                 <table>
-                    <tr className="data-result">
+                    <tr className="data-result data-show">
                         <td>Data da consulta:</td>
                         <td></td>
                     </tr>

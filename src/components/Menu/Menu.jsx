@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import './Menu.css';
+
 class Menu extends Component {
     render() {
       return (
@@ -10,17 +12,17 @@ class Menu extends Component {
             <ul>
             <Link to="/media-de-preco">
                 <li key="1">
-                    Pesquisa de preço médio de veículo
+                    Preço médio de veículo
                 </li>
             </Link>
             <Link to="/consultas-realizadas">
                 <li key="2">
-                    Lista de consultas realizadas
+                    Consultas realizadas
                 </li>
             </Link>
             <Link to="/mais-procurados">
                 <li key="3">
-                    Os 3 veículos mais procurados até o momento
+                    Os mais procurados
                 </li>
             </Link>
             </ul>

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import Header from '../Header/Header';
-import Menu from '../Menu/Menu';
-
 class DataSearched extends Component {
 
     render() {
@@ -11,11 +9,16 @@ class DataSearched extends Component {
       return (
         <React.Fragment>
             <Header />
-            <Menu />
-            <div className="data-searched">
+
+            <div className="data-searched data-show">
+
                 <h2>
-                    Aqui estão as consultas de veículos que você fez até agora:
+                    Consultas realizadas
                 </h2>
+
+                <h3>
+                    Aqui estão as consultas de veículos que você fez até agora:
+                </h3>
 
                 <table>
                     <tr className="data-result">

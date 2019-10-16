@@ -4,7 +4,6 @@ import AveragePriceResult from './AveragePriceResult/AveragePriceResult';
 import axios from 'axios';
 
 import Header from '../Header/Header';
-import Menu from '../Menu/Menu';
 
 const api = {
     baseUrl: 'http://fipeapi.appspot.com/api/1/',
@@ -25,6 +24,8 @@ class AveragePrice extends Component {
             years: [],
             readyToSearch: false
         }
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount(){
@@ -75,15 +76,22 @@ class AveragePrice extends Component {
         let actualVehicle = this.state.actualVehicle;
 
         if(actualBrandId != '' && actualModelId != '' && actualYearId != ''){
+            console.log(this.state.readyToSearch);
             this.setState({readyToSearch: true});
+            console.log(this.state.readyToSearch);
+            debugger;
         }
         let readyToSearch = this.state.readyToSearch;
+
+        debugger;
+
+        console.log(readyToSearch, this.state.readyToSearch);
         
-        
-        switch(true){
-            case readyToSearch:
+        if(readyToSearch == true){
+            debugger;
             this.searchVehicle(actualBrandId, actualModelId, actualYearId);
         }
+        
     }
 
     searchVehicle(brandId, modelId, yearId){
@@ -135,31 +143,43 @@ class AveragePrice extends Component {
         <React.Fragment>
 
         <Header />
-        <Menu />
 
-            <div className="average-price">
+            <div className="average-price data-show">
 
-                <h2>Selecione as informações abaixo para realizar a pesquisa de valor médio de veículo:</h2>
 
-                <form className=".average-price" onSubmit={this.handleSubmit}>
-                    <select placeholder="Selecione a marca do veículo" className="vehicle-brand" onChange={this.handleModelChange}>
-                        <option disabled selected className="select-title">Selecione a marca do veículo</option>
-                        {brandsList}                        
-                    </select>
-                    <select placeholder="Selecione o modelo do veículo" className="vehicle-model" onChange={this.handleYearChange}>
-                        <option disabled className="select-title">Selecione o modelo do veículo</option>
-                        {modelsList}
-                    </select>
-                    <select placeholder="Selecione o ano do veículo" className="vehicle-year" onChange={this.handleUpdateYear}>
-                        <option disabled selected className="select-title">Selecione o ano do veículo</option>
-                        {yearsList}
-                    </select>
+                    <h2>
+                        Preço médio de veículo
+                    </h2>
 
-                    <button type="submit">Pesquisar</button>
-                </form>
-                
-                
-                {this.state.readyToSearch && 
+                    <h3>Selecione as informações abaixo para realizar a pesquisa de valor médio de veículo:</h3>
+
+                    <form className=".average-price" onSubmit={this.handleSubmit}>
+                        <label htmlFor="brandSelect">
+                            Marca do veículo:
+                        </label>
+                        <select placeholder="Selecione a marca do veículo" name="brandSelect" className="vehicle-brand" onChange={this.handleModelChange}>
+
+                            {brandsList}                        
+                        </select>
+                        <label htmlFor="modelSelect">
+                            Modelo do veículo:
+                        </label>
+                        <select placeholder="Selecione o modelo do veículo" name="modelSelect" className="vehicle-model" onChange={this.handleYearChange}>
+
+                            {modelsList}
+                        </select>
+                        <label htmlFor="yearSelect">
+                            Ano do veículo:
+                        </label>
+                        <select placeholder="Selecione o ano do veículo" name="yearSelect" className="vehicle-year" onChange={this.handleUpdateYear}>
+
+                            {yearsList}
+                        </select>
+
+                        <button type="submit">Pesquisar</button>
+                    </form>
+                    
+                    
                     <AveragePriceResult 
                         id={this.state.actualVehicle.id} 
                         year={this.state.actualVehicle.year} 
@@ -170,7 +190,10 @@ class AveragePrice extends Component {
                         fuel={this.state.actualVehicle.fuel} 
                         ref={this.state.actualVehicle.ref} 
                         fipe_cod={this.state.actualVehicle.fipe_cod} 
-                        key={this.state.actualVehicle.key} />}
+                        key={this.state.actualVehicle.key}
+                        readyToRender={this.state.readyToSearch} />
+
+
                 
             </div>
 

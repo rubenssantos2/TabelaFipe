@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import './Header.css';
+
+//Images
+import LinxLogo from './linx-logo.png';
+
+import Menu from '../Menu/Menu';
 
 class Header extends Component {
     render() {
@@ -6,8 +12,9 @@ class Header extends Component {
         <React.Fragment>
 
             <header>
-              <img src="https://www.fipe.org.br/Content/img/logo_fipe.png" alt="Fipe" />
+              <img src={LinxLogo} alt="Linx" />
               <h1>Consulta da Tabela Fipe</h1>
+              <Menu />
             </header>
             
         </React.Fragment>

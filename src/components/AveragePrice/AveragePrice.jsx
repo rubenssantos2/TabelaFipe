@@ -66,7 +66,7 @@ class AveragePrice extends Component {
 
     handleYearChange = ( event ) => {
 
-        this.setState({actualYearId: event.target.value});
+        this.setState({readyToRender: false, actualYearId: event.target.value});
         
         this.searchVehicle(this.state.actualBrandId, this.state.actualModelId, event.target.value);
             

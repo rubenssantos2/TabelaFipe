@@ -38,7 +38,7 @@ class AveragePrice extends Component {
     }
 
     handleModelChange = ( event ) => {
-        this.setState({readyToSearch: false, actualModelId: [], actualBrandId: event.target.value});
+        this.setState({readyToSearch: false, actualModelId: '', actualBrandId: event.target.value, actualYearId: ''});
         this.updateModels(event.target.value);
         } 
 
@@ -51,7 +51,7 @@ class AveragePrice extends Component {
         }
 
     handleYearChange = ( event ) => {
-        this.setState({readyToSearch: false, actualYearId: [], actualModelId: event.target.value});
+        this.setState({readyToSearch: false, actualYearId: '', actualModelId: event.target.value});
         this.updateYears(event.target.value);
         } 
 

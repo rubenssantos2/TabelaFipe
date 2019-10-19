@@ -37,7 +37,7 @@ class AveragePrice extends Component {
             })
     }
 
-    handleModelChange = ( event ) => {
+    handleBrandChange = ( event ) => {
         this.setState({readyToSearch: false, actualModelId: '', actualBrandId: event.target.value, actualYearId: ''});
         this.updateModels(event.target.value);
         } 
@@ -50,23 +50,34 @@ class AveragePrice extends Component {
             })
         }
 
-    handleYearChange = ( event ) => {
+    handleModelChange = ( event ) => {
+        
         this.setState({readyToSearch: false, actualYearId: '', actualModelId: event.target.value});
         this.updateYears(event.target.value);
         } 
 
     updateYears(modelId){
-        let brandId = this.state.actualBrandId;
 
         axios
-            .get(`${apiFipe.baseUrl}carros/veiculo/${brandId}/${modelId}${apiFipe.endUrl}`)
+            .get(`${apiFipe.baseUrl}carros/veiculo/${this.state.actualBrandId}/${modelId}${apiFipe.endUrl}`)
             .then(resp => {
                 this.setState({years: resp.data});
             })
         }
 
-    handleUpdateYear = ( event ) => {
+    handleYearChange = ( event ) => {
+
         this.setState({actualYearId: event.target.value});
+        debugger;
+
+        axios
+            .get(`${apiFipe.baseUrl}carros/veiculo/${this.state.actualBrandId}/${this.state.actualModelId}/${event.target.value}${apiFipe.endUrl}`)
+            .then(resp => {
+                this.setState({actualVehicle: resp.data});
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     handleSubmit = ( event ) => {
@@ -174,14 +185,14 @@ class AveragePrice extends Component {
                         <label htmlFor="brandSelect">
                             Marca do veículo:
                         </label>
-                        <select placeholder="Selecione a marca do veículo" name="brandSelect" className="vehicle-brand" onChange={this.handleModelChange}>
+                        <select placeholder="Selecione a marca do veículo" name="brandSelect" className="vehicle-brand" onChange={this.handleBrandChange}>
                             <option selected disabled></option>
                             {brandsList}                        
                         </select>
                         <label htmlFor="modelSelect">
                             Modelo do veículo:
                         </label>
-                        <select placeholder="Selecione o modelo do veículo" name="modelSelect" className="vehicle-model" onChange={this.handleYearChange}>
+                        <select placeholder="Selecione o modelo do veículo" name="modelSelect" className="vehicle-model" onChange={this.handleModelChange}>
                             <option selected disabled></option>
                             {modelsList}
                         </select>
@@ -189,7 +200,7 @@ class AveragePrice extends Component {
                             <option selected disabled></option>
                             Ano do veículo:
                         </label>
-                        <select placeholder="Selecione o ano do veículo" name="yearSelect" className="vehicle-year" onChange={this.handleUpdateYear}>
+                        <select placeholder="Selecione o ano do veículo" name="yearSelect" className="vehicle-year" onChange={this.handleYearChange}>
                             <option selected disabled></option>
                             {yearsList}
                         </select>

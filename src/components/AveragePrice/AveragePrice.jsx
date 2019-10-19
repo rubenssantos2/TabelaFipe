@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import Header from '../Header/Header';
 
-const api = {
+const apiFipe = {
     baseUrl: 'http://fipeapi.appspot.com/api/1/',
     endUrl: '.json'
 }
@@ -15,14 +15,15 @@ class AveragePrice extends Component {
         super(props);
         this.state = {
             allBrands: [],
+            models: [],
+            brands: [],
+            years: [],
             actualBrandId: '',
             actualModelId: '',
             actualYearId: '',
             actualVehicle: [],
-            models: [],
-            brands: [],
-            years: [],
-            readyToSearch: false
+            readyToSearch: false,
+            readyToRenderResult: false
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,9 +31,9 @@ class AveragePrice extends Component {
 
     componentDidMount(){
         axios
-            .get(`${api.baseUrl}carros/marcas${api.endUrl}`)
+            .get(`${apiFipe.baseUrl}carros/marcas${apiFipe.endUrl}`)
             .then(resp => {
-                this.setState({allBrands: resp.data});
+                this.setState({allBrands: resp.data, actualBrandId: this.state.allBrands["0"]});
             })
     }
 
@@ -43,7 +44,7 @@ class AveragePrice extends Component {
 
     updateModels(brandId){
         axios
-            .get(`${api.baseUrl}carros/veiculos/${brandId}${api.endUrl}`)
+            .get(`${apiFipe.baseUrl}carros/veiculos/${brandId}${apiFipe.endUrl}`)
             .then(resp => {
                 this.setState({models: resp.data});
             })
@@ -58,7 +59,7 @@ class AveragePrice extends Component {
         let brandId = this.state.actualBrandId;
 
         axios
-            .get(`${api.baseUrl}carros/veiculo/${brandId}/${modelId}${api.endUrl}`)
+            .get(`${apiFipe.baseUrl}carros/veiculo/${brandId}/${modelId}${apiFipe.endUrl}`)
             .then(resp => {
                 this.setState({years: resp.data});
             })
@@ -76,28 +77,25 @@ class AveragePrice extends Component {
         let actualVehicle = this.state.actualVehicle;
 
         if(actualBrandId != '' && actualModelId != '' && actualYearId != ''){
-            console.log(this.state.readyToSearch);
-            this.setState({readyToSearch: true});
-            console.log(this.state.readyToSearch);
-            debugger;
-        }
-        let readyToSearch = this.state.readyToSearch;
 
-        debugger;
+            this.postVehicle(this.state.actualVehicle);
+                
+            let readyToSearch = true;
+            
 
-        console.log(readyToSearch, this.state.readyToSearch);
-        
-        if(readyToSearch == true){
-            debugger;
+            this.setState({readyToSearch: readyToSearch});
+            
+
             this.searchVehicle(actualBrandId, actualModelId, actualYearId);
         }
+        
         
     }
 
     searchVehicle(brandId, modelId, yearId){
 
         axios
-            .get(`${api.baseUrl}carros/veiculo${brandId}/${modelId}/${yearId}${api.endUrl}`)
+            .get(`${apiFipe.baseUrl}carros/veiculo/${brandId}/${modelId}/${yearId}${apiFipe.endUrl}`)
             .then(resp => {
                 this.setState({
                     actualVehicle: {
@@ -117,23 +115,42 @@ class AveragePrice extends Component {
             })
     }
 
+    postVehicle(year, brand, name, vehicle, price, fuel, ref, fipe_cod, key){
+        axios
+        .post('/api/Vehicles/', {
+            year: year,
+            brand: brand,
+            name: name,
+            vehicle: vehicle,
+            price: price,
+            fuel: fuel,
+            ref: ref,
+            fipe_cod: fipe_cod,
+            key: key
+        })
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
     render() {
-        let allBrands = this.state.allBrands;
-        let brandsList = allBrands.length > 0 && allBrands.map((brand, i) => {
+     
+        let brandsList = this.state.allBrands.length > 0 && this.state.allBrands.map((brand) => {
             return (
                 <option key={brand.id} value={brand.id}>{brand.name}</option>
             )
         })
 
-        let models = this.state.models;
-        let modelsList = models.length > 0 && models.map((model, i) => {
+        let modelsList = this.state.models.length > 0 && this.state.models.map((model) => {
             return (
                 <option key={model.id} value={model.id}>{model.name}</option>
             )
         }, this);
 
-        let years = this.state.years;
-        let yearsList = years.length > 0 && years.map((year, i) => {
+        let yearsList = this.state.years.length > 0 && this.state.years.map((year) => {
             return (
                 <option key={year.id} value={year.id}>{year.name}</option>
             )
@@ -158,43 +175,41 @@ class AveragePrice extends Component {
                             Marca do veículo:
                         </label>
                         <select placeholder="Selecione a marca do veículo" name="brandSelect" className="vehicle-brand" onChange={this.handleModelChange}>
-
+                            <option selected disabled></option>
                             {brandsList}                        
                         </select>
                         <label htmlFor="modelSelect">
                             Modelo do veículo:
                         </label>
                         <select placeholder="Selecione o modelo do veículo" name="modelSelect" className="vehicle-model" onChange={this.handleYearChange}>
-
+                            <option selected disabled></option>
                             {modelsList}
                         </select>
                         <label htmlFor="yearSelect">
+                            <option selected disabled></option>
                             Ano do veículo:
                         </label>
                         <select placeholder="Selecione o ano do veículo" name="yearSelect" className="vehicle-year" onChange={this.handleUpdateYear}>
-
+                            <option selected disabled></option>
                             {yearsList}
                         </select>
 
                         <button type="submit">Pesquisar</button>
                     </form>
                     
-                    
-                    <AveragePriceResult 
-                        id={this.state.actualVehicle.id} 
-                        year={this.state.actualVehicle.year} 
-                        brand={this.state.actualVehicle.brand} 
-                        name={this.state.actualVehicle.name} 
-                        vehicle={this.state.actualVehicle.vehicle} 
-                        price={this.state.actualVehicle.price} 
-                        fuel={this.state.actualVehicle.fuel} 
-                        ref={this.state.actualVehicle.ref} 
-                        fipe_cod={this.state.actualVehicle.fipe_cod} 
-                        key={this.state.actualVehicle.key}
-                        readyToRender={this.state.readyToSearch} />
-
-
                 
+                        <AveragePriceResult 
+                            id={this.state.actualVehicle.id} 
+                            year={this.state.actualVehicle.year} 
+                            brand={this.state.actualVehicle.brand} 
+                            name={this.state.actualVehicle.name} 
+                            vehicle={this.state.actualVehicle.vehicle} 
+                            price={this.state.actualVehicle.price} 
+                            fuel={this.state.actualVehicle.fuel} 
+                            ref={this.state.actualVehicle.ref} 
+                            fipe_cod={this.state.actualVehicle.fipe_cod} 
+                            key={this.state.actualVehicle.key}
+                            readyToRender={this.state.readyToRenderResult} />
             </div>
 
             

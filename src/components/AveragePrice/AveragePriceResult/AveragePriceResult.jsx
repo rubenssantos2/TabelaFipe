@@ -2,8 +2,6 @@ import React from 'react';
 
 const AveragePriceResult = (props) => {
 
-    if(props.readyToSearch == true){
-
         return (
           <React.Fragment>
     
@@ -34,10 +32,6 @@ const AveragePriceResult = (props) => {
     
           </React.Fragment>
         );
-    } else {
-
-        return null;
-    }
-  }
+    } 
   
   export default AveragePriceResult;

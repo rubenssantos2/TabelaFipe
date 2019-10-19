@@ -22,8 +22,7 @@ class AveragePrice extends Component {
             actualModelId: '',
             actualYearId: '',
             actualVehicle: [],
-            readyToSearch: false,
-            readyToRenderResult: false
+            readyToRender: false
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,7 +37,7 @@ class AveragePrice extends Component {
     }
 
     handleBrandChange = ( event ) => {
-        this.setState({readyToSearch: false, actualModelId: '', actualBrandId: event.target.value, actualYearId: ''});
+        this.setState({readyToRender: false, actualBrandId: event.target.value, actualModelId: '', actualYearId: ''});
         this.updateModels(event.target.value);
         } 
 
@@ -52,7 +51,7 @@ class AveragePrice extends Component {
 
     handleModelChange = ( event ) => {
         
-        this.setState({readyToSearch: false, actualYearId: '', actualModelId: event.target.value});
+        this.setState({readyToRender: false, actualYearId: '', actualModelId: event.target.value});
         this.updateYears(event.target.value);
         } 
 
@@ -68,36 +67,17 @@ class AveragePrice extends Component {
     handleYearChange = ( event ) => {
 
         this.setState({actualYearId: event.target.value});
-        debugger;
-
-        axios
-            .get(`${apiFipe.baseUrl}carros/veiculo/${this.state.actualBrandId}/${this.state.actualModelId}/${event.target.value}${apiFipe.endUrl}`)
-            .then(resp => {
-                this.setState({actualVehicle: resp.data});
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        
+        this.searchVehicle(this.state.actualBrandId, this.state.actualModelId, event.target.value);
+            
     }
 
     handleSubmit = ( event ) => {
         event.preventDefault();
-        let actualBrandId = this.state.actualBrandId;
-        let actualModelId = this.state.actualModelId;
-        let actualYearId = this.state.actualYearId;
-        let actualVehicle = this.state.actualVehicle;
 
-        if(actualBrandId != '' && actualModelId != '' && actualYearId != ''){
+        if(this.state.actualVehicle){
 
-            this.postVehicle(this.state.actualVehicle);
-                
-            let readyToSearch = true;
-            
-
-            this.setState({readyToSearch: readyToSearch});
-            
-
-            this.searchVehicle(actualBrandId, actualModelId, actualYearId);
+            this.setState({readyToRender: true});
         }
         
         
@@ -108,21 +88,10 @@ class AveragePrice extends Component {
         axios
             .get(`${apiFipe.baseUrl}carros/veiculo/${brandId}/${modelId}/${yearId}${apiFipe.endUrl}`)
             .then(resp => {
-                this.setState({
-                    actualVehicle: {
-                        id: resp.data.id,
-                        year: resp.data.ano_modelo,
-                        brand: resp.data.marca,
-                        name: resp.data.name,
-                        vehicle: resp.data.veiculo,
-                        price: resp.data.preco,
-                        fuel: resp.data.combustivel,
-                        ref: resp.data.referencia,
-                        fipe_cod: resp.data.fipe_codigo,
-                        key: resp.data.key
-                    }
-                });
-                
+                this.setState({actualVehicle: resp.data});
+            })
+            .catch(error => {
+                console.log(error);
             })
     }
 
@@ -208,19 +177,20 @@ class AveragePrice extends Component {
                         <button type="submit">Pesquisar</button>
                     </form>
                     
-                
+                    {this.state.readyToRender && 
                         <AveragePriceResult 
                             id={this.state.actualVehicle.id} 
-                            year={this.state.actualVehicle.year} 
-                            brand={this.state.actualVehicle.brand} 
+                            year={this.state.actualVehicle.ano_modelo} 
+                            brand={this.state.actualVehicle.marca} 
                             name={this.state.actualVehicle.name} 
-                            vehicle={this.state.actualVehicle.vehicle} 
-                            price={this.state.actualVehicle.price} 
-                            fuel={this.state.actualVehicle.fuel} 
-                            ref={this.state.actualVehicle.ref} 
-                            fipe_cod={this.state.actualVehicle.fipe_cod} 
+                            vehicle={this.state.actualVehicle.veiculo} 
+                            price={this.state.actualVehicle.preco} 
+                            fuel={this.state.actualVehicle.combustivel} 
+                            refs={this.state.actualVehicle.referencia} 
+                            fipe_cod={this.state.actualVehicle.fipe_codigo} 
                             key={this.state.actualVehicle.key}
-                            readyToRender={this.state.readyToRenderResult} />
+                            readyToRender={this.state.readyToRender} />}
+                        
             </div>
 
             

@@ -142,8 +142,7 @@ class AveragePrice extends Component {
         <Header />
 
             <div className="average-price data-show">
-
-
+                
                     <h2>
                         Preço médio de veículo
                     </h2>

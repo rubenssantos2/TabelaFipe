@@ -90,7 +90,7 @@ button:hover {
 table {
   padding: 0px 6%;
   margin: 30px 0px;
-  display: flex;
+  display: table;
   flex-direction: column;
 }
 
@@ -104,6 +104,10 @@ tr:nth-child(odd) {
 
 tr td:first-child {
   font-weight: bold;
+}
+
+td {
+  padding: 5px;
 }
 
 

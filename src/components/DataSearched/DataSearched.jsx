@@ -4,9 +4,7 @@ import axios from 'axios';
 import Header from '../Header/Header';
 import DataSearchedResult from './DataSearchedResult/DataSearchedResult';
 
-const api = {
-    baseUrl: 'http://localhost/tabela-fipe/backend'
-}
+
 class DataSearched extends Component {
 
     constructor(props){
@@ -20,13 +18,19 @@ class DataSearched extends Component {
 
     componentDidMount(){
         axios
-            .get(`${api.baseUrl}`)
+            .get(`http://localhost/tabela-fipe/backend/tabelafipe-backend/api/consults/`)
             .then(resp => {
                 this.setState({consults: resp.data});
             })
     }
 
     render() {
+
+        let searchedList = this.state.consults.length > 0 && this.state.consults.map((consult) => {
+            return (
+                <DataSearchedResult date={consult.data} fipe_cod={consult.codigo_fipe} brand={consult.marca} model={consult.veiculo} year={consult.ano} price={consult.preco} />
+            )
+        })
 
       return (
         <React.Fragment>
@@ -42,7 +46,7 @@ class DataSearched extends Component {
                     Aqui estão as consultas de veículos que você fez até agora:
                 </h3>
 
-                {this.state.consults && <DataSearchedResult consults={this.state.consults} />}
+                {this.state.consults && searchedList}
                 {!this.state.consults && <p>Carregando consultas...</p>}
             </div>
         </React.Fragment>

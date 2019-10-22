@@ -1,70 +1,67 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Este projeto foi desenvolvido com:
 
-## Available Scripts
+- Javascript, React, CSS 
+- API externa  da Tabela Fipe: [http://fipeapi.appspot.com/](http://fipeapi.appspot.com/)
 
-In the project directory, you can run:
+## Requisitos 
 
-### `yarn start`
+Para que o projeto funcione, é necessário:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Node JS
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Para o desenvolvimento, é necessário ter o Node.js instalado na máquina.
 
-### `yarn test`
+#### Instalação no Windows
+[Página oficial do Node.JS](http://nodejs.org/)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+#### Instalação no OS X
+Instale o Homebrew, se ainda não o tiver feito com o seguinte comando:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```$ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+E então, se tudo estiver instalado, você pode instalar o Node.JS com o comando: 
+```brew install node```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+#### Instalação no Linux
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install nodejs
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Instalação do Projeto
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+$ git clone https://github.com/rubenssb/TabelaFipe.git
+$ cd TabelaFipe
+$ npm install
 
-## Learn More
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Inicialização e Watch
 
-### Code Splitting
+Roda a aplicação em modo de desenvolvimento<br />
+Abrirá automaticamente no navegador [http://localhost:3000](http://localhost:3000)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```
+$ npm start
+```
 
-### Analyzing the Bundle Size
+## Build para produção
+```
+$ npm run build
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-### Making a Progressive Web App
+## API interna de consultas de veículos
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Desevolvida em PHP
+Está contida no repositório: [https://github.com/rubenssb/tabelafipe-backend2](https://github.com/rubenssb/tabelafipe-backend2)
 
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
--
+Para rodar localmente, é recomendado o uso de algum serviço como o [WAMP](http://www.wampserver.com/en/) ou o [XAMPP](https://www.apachefriends.org/pt_br/index.html)

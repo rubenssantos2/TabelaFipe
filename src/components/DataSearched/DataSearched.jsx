@@ -18,7 +18,7 @@ class DataSearched extends Component {
 
     componentDidMount(){
         axios
-            .get(`http://localhost/tabela-fipe/backend/tabelafipe-backend/api/consults/`)
+            .get(`http://localhost/tabela-fipe/backend2/api/consults/`)
             .then(resp => {
                 this.setState({consults: resp.data});
             })

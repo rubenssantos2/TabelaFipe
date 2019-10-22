@@ -78,6 +78,15 @@ class AveragePrice extends Component {
         if(this.state.actualVehicle){
 
             this.setState({readyToRender: true});
+            this.postVehicle(
+                this.state.actualVehicle.ano, 
+                this.state.actualVehicle.marca, 
+                this.state.actualVehicle.name, 
+                this.state.actualVehicle.veiculo, 
+                this.state.actualVehicle.preco, 
+                this.state.actualVehicle.combustivel, 
+                this.state.actualVehicle.referencia, 
+                this.state.actualVehicle.fipe_codigo)
         }
         
         
@@ -95,24 +104,35 @@ class AveragePrice extends Component {
             })
     }
 
-    postVehicle(year, brand, name, vehicle, price, fuel, ref, fipe_cod, key){
-        axios
-        .post('/api/Vehicles/', {
-            year: year,
-            brand: brand,
-            name: name,
-            vehicle: vehicle,
-            price: price,
-            fuel: fuel,
-            ref: ref,
-            fipe_cod: fipe_cod,
-            key: key
-        })
-        .then(response => {
-            console.log(response);
-        })
-        .catch(error => {
+    postVehicle(year, brand, name, vehicle, price, fuel, ref, fipe_cod){
+
+        axios({
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Accept": "*/*",
+                "Cache-Control": "no-cache",
+                "Host": "localhost"
+            },
+            method: 'post',
+            url: 'https://localhost/tabela-fipe/backend2/api/vehicles/',
+            data:{
+                ano: year,
+                marca: brand,
+                nome: name,
+                veiculo: vehicle,
+                preco: price,
+                combustivel: fuel,
+                referencia: ref,
+                codigo_fipe: fipe_cod,
+                consultas: 1
+            },
+            validateStatus: (status) => {
+                return true; 
+            },
+        }).catch(error => {
             console.log(error);
+        }).then(response => {
+            console.log(response);
         })
     }
 

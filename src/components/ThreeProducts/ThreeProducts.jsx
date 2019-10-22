@@ -16,7 +16,7 @@ class ThreeProducts extends Component {
 
     componentDidMount(){
         axios
-            .get(`http://localhost/tabela-fipe/backend/tabelafipe-backend/api/vehicles-top/`)
+            .get(`http://localhost/tabela-fipe/backend2/api/vehicles-top/`)
             .then(resp => {
                 this.setState({products: resp.data});
             })
